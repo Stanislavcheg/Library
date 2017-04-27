@@ -1,0 +1,103 @@
+---
+:books:
+- &6 !ruby/object:Book
+  title: 1/22/63
+  author: &1 !ruby/object:Author
+    name: Stephen King
+    biography: Stephen Edwin King (born September 21, 1947) is an American author
+      of horror, supernatural fiction, suspense, science fiction, and fantasy. His
+      books have sold more than 350 million copies, many of which have been adapted
+      into feature films, miniseries, television shows, and comic books. King has
+      published 54 novels, including seven under the pen name Richard Bachman, and
+      six non-fiction books.
+- &3 !ruby/object:Book
+  title: Carrie
+  author: *1
+- &4 !ruby/object:Book
+  title: Fahrenheit 451
+  author: &10 !ruby/object:Author
+    name: Ray Bradbury
+    biography: Ray Douglas Bradbury (August 22, 1920 – June 5, 2012) was an American
+      author and screenwriter. He worked in a variety of genres, including fantasy,
+      science fiction, horror and mystery fiction. Widely known for his dystopian
+      novel Fahrenheit 451 (1953), and his science fiction and horror story collections
+      The Martian Chronicles (1950), The Illustrated Man (1951), and I Sing the Body
+      Electric (1969), Bradbury was one of the most celebrated 20th- and 21st-century
+      American writers.
+- &7 !ruby/object:Book
+  title: Fight Club
+  author: &2 !ruby/object:Author
+    name: Chuck Palahniuk
+    biography: Charles Michael Palahniuk (born February 21, 1962) is an American novelist
+      and freelance journalist, who describes his work as 'transgressional' fiction.
+      He is the author of the award-winning novel Fight Club, which also was made
+      into an acclaimed film of the same name.
+- !ruby/object:Book
+  title: Choke
+  author: *2
+- !ruby/object:Book
+  title: A Game of Thrones
+  author: &11 !ruby/object:Author
+    name: George Martin
+    biography: George Raymond Richard Martin (born George Raymond Martin; September
+      20, 1948), often referred to as GRRM, is an American novelist and short-story
+      writer in the fantasy, horror, and science fiction genres, screenwriter, and
+      television producer. He is best known for his international bestselling series
+      of epic fantasy novels, A Song of Ice and Fire, which was later adapted into
+      the HBO dramatic series Game of Thrones.
+- 
+:orders:
+- !ruby/object:Order
+  book: *3
+  reader: &5 !ruby/object:Reader
+    name: Kate Green
+    email: kate_green@gmail.com
+    city: New York
+    street: 168th street
+    house: 76
+  date: 25-04-2017
+- !ruby/object:Order
+  book: *4
+  reader: *5
+  date: 25-04-2017
+- !ruby/object:Order
+  book: *3
+  reader: &9 !ruby/object:Reader
+    name: Mark Geller
+    email: mark55@mail.com
+    city: Newark
+    street: Littleton ave
+    house: 22
+  date: 05-01-2017
+- !ruby/object:Order
+  book: *6
+  reader: *5
+  date: 20-03-2017
+- !ruby/object:Order
+  book: *7
+  reader: *5
+  date: 07-04-2017
+- !ruby/object:Order
+  book: *3
+  reader: &8 !ruby/object:Reader
+    name: John Doe
+    email: doe_john@mail.com
+    city: New York
+    street: Madison Ave
+    house: 88
+  date: 25-04-2017
+:readers:
+- *8
+- !ruby/object:Reader
+  name: Walter Smith
+  email: smith_w@mail.com
+  city: New Jersey
+  street: Orient Ave
+  house: 21
+- *5
+- *9
+:authors:
+- *1
+- *10
+- *2
+- *11
