@@ -36,29 +36,33 @@ class Library
   end
 
   def often_takes_the_book
-    readers_rating = Hash.new(0)
-    orders.each{|order| readers_rating[order.reader.name] += 1 }
-    reads_the_most = readers_rating.sort_by{|k,v| v}[-1][0]
+    readers_rating = sort_by_rating{|order| order.reader.name}
+    reads_the_most = readers_rating[0][0]
     readers.find{|reader| reader.name == reads_the_most}
   end
 
   def the_most_popular_book
-    books_rating = Hash.new(0)
-    orders.each{|order| books_rating[order.book.title] += 1 }
-    the_most_popular_book = books_rating.sort_by{|k,v| v}[-1][0]
+    books_rating = sort_by_rating{|order| order.book.title}
+    the_most_popular_book = books_rating[0][0]
     books.find{|book| book.title == the_most_popular_book}
   end
 
   def how_many_people_ordered_one_of_the_three_most_popular_books
-    books_rating = Hash.new(0)
-    orders.each{|order| books_rating[order.book.title] += 1 }
-    three_most_popular_books = books_rating.sort_by{|k,v| -v}
-    three_most_popular_books = three_most_popular_books.first(3)
-    three_most_popular_books = three_most_popular_books.map { |e| e[0] }
+    books_rating = sort_by_rating{|order| order.book.title}
+    three_most_popular_books = books_rating.first(3).map { |elem| elem[0] }
     people_list = orders.find_all{|order| three_most_popular_books.include?(order.book.title) }
     people_list = people_list.map{|order| order.reader}
     people_list.uniq
   end
 
+  private
+  def sort_by_rating
+  	rating = Hash.new(0)
+  	orders.each do|order| 
+  	  condition = yield(order)
+  	  rating[condition] += 1
+    end
+    rating.sort_by{|k,v| -v}
+  end
 
 end
