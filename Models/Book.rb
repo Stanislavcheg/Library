@@ -1,3 +1,4 @@
+# Book entity
 class Book
   attr_accessor :title, :author
   def initialize(title, author)
@@ -6,7 +7,6 @@ class Book
   end
 
   def to_s
-  	"book #{title}, #{author}"
+    "book #{title}, #{author}"
   end
-
 end

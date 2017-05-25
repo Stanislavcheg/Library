@@ -1,3 +1,4 @@
+# Book author entity
 class Author
   attr_accessor :name, :biography
 
@@ -6,7 +7,7 @@ class Author
     @biography = biography
   end
 
-  def to_s 
+  def to_s
     "author #{@name}"
   end
 end

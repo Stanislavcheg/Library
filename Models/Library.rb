@@ -1,23 +1,14 @@
-require_relative "book"
-require_relative "order"
-require_relative "reader"
-require_relative "author"
+require_relative 'book'
+require_relative 'order'
+require_relative 'reader'
+require_relative 'author'
+require 'yaml'
 
-require "yaml"
-
-
+# Manage book orders
 class Library
   attr_reader :books, :orders, :readers, :authors
 
-  def initialize(file = "data.yaml")
-    data = read_from_file(file)
-    unless data
-      @books = []
-      @orders = []
-      @readers = []
-      @authors = []
-    end
-  end
+  def initialize(books: [], orders: [], readers: [], authors: []) end
 
   def read_from_file(file)
     data = YAML.load_file(file)
@@ -29,40 +20,32 @@ class Library
   end
 
   def save_to_file(file)
-    output = File.new(file, "w")
-    data = {:books => books, :orders => orders, :readers => readers, :authors => authors}
+    output = File.new(file, 'w')
+    data = { books: books, orders: orders, readers: readers, authors: authors }
     output.puts(YAML.dump(data))
     output.close
   end
 
   def often_takes_the_book
-    readers_rating = sort_by_rating{|order| order.reader.name}
-    reads_the_most = readers_rating[0][0]
-    readers.find{|reader| reader.name == reads_the_most}
+    most_popular(&:reader)
   end
 
   def the_most_popular_book
-    books_rating = sort_by_rating{|order| order.book.title}
-    the_most_popular_book = books_rating[0][0]
-    books.find{|book| book.title == the_most_popular_book}
+    most_popular(&:book)
   end
 
-  def how_many_people_ordered_one_of_the_three_most_popular_books
-    books_rating = sort_by_rating{|order| order.book.title}
-    three_most_popular_books = books_rating.first(3).map { |elem| elem[0] }
-    people_list = orders.find_all{|order| three_most_popular_books.include?(order.book.title) }
-    people_list = people_list.map{|order| order.reader}
+  def people_ordered_3_most_popular_books
+    three_most_popular_books = most_popular(3, &:book)
+    people_list = orders.find_all { |order| three_most_popular_books.include?(order.book) }
+    people_list = people_list.map(&:reader)
     people_list.uniq
   end
 
   private
-  def sort_by_rating
-  	rating = Hash.new(0)
-  	orders.each do|order| 
-  	  condition = yield(order)
-  	  rating[condition] += 1
-    end
-    rating.sort_by{|k,v| -v}
-  end
 
+  def most_popular(number = 1)
+    grouped_orders = orders.group_by { |order| yield(order) }
+    rating = grouped_orders.sort_by { |_condition, orders| -orders.length }
+    rating.first(number).map { |condition, _orders| condition }
+  end
 end

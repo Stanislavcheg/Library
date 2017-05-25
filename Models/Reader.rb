@@ -1,3 +1,4 @@
+# Book reader entity
 class Reader
   attr_accessor :name, :email, :city, :street, :house
 

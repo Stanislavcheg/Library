@@ -1,3 +1,4 @@
+# Book order entity
 class Order
   attr_accessor :book, :reader, :date
 
@@ -5,14 +6,13 @@ class Order
     @book = book
     @reader = reader
     @date = date
-    @id = Time.new.to_i
   end
 
   def to_s
     "Order: #{@book}, #{@reader}, #{@date}"
   end
-  
+
   def hash
-     @id
+    @id
   end
 end
